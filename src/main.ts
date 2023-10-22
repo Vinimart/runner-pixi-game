@@ -4,7 +4,7 @@ import { Background } from './game/Background';
 import { Character } from './game/Character';
 import { Obstacle } from './game/Obstacle';
 
-const backgroundSpeed = 4; // Adjust the speed as needed
+const backgroundSpeed = 1; // Adjust the speed as needed
 
 const app = new PIXI.Application({ backgroundAlpha: 0, resizeTo: window });
 
@@ -16,18 +16,28 @@ background.render();
 const character = new Character(app);
 character.render();
 
-const obstacleTexture = PIXI.Texture.from("assets/sprites/obstacles/box.png");
+const obstacleTexture = [
+  PIXI.Texture.from("assets/sprites/obstacles/box.png"),
+  PIXI.Texture.from("assets/sprites/obstacles/longbox.png"),
+];
 
 const obstacles: Obstacle[] = [];
+
+let time = Math.random() * 2 + 2;
+
+app.ticker.add(() => {
+  time -= 1 / 60;
+
+  if (time <= 0) {
+    time = Math.random() * 2 + 2;
+
+    obstacles.push(new Obstacle(app, obstacleTexture, character.sprite.x));
+  }
+});
 
 app.ticker.add(() => {
   // Move the background based on the fixed speed
   background.moveBackground(backgroundSpeed);
-
-  // Generate obstacles at regular intervals
-  if (Math.random() < 0.008) {
-    obstacles.push(new Obstacle(app, obstacleTexture, character.sprite.x));
-  }
 
   // Update obstacles
   for (const obstacle of obstacles) {

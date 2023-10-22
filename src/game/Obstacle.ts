@@ -10,7 +10,7 @@ export class Obstacle {
 
   constructor(
     app: PIXI.Application,
-    texture: PIXI.Texture,
+    texture: PIXI.Texture[],
     characterX: number
   ) {
     this.app = app;
@@ -19,7 +19,7 @@ export class Obstacle {
     this.frequency = 0.01; // Adjust the frequency for the vertical movement
 
     // Create the obstacle sprite
-    this.sprite = new PIXI.Sprite(texture);
+    this.sprite = new PIXI.Sprite(texture[Math.floor(Math.random() * 2)]);
 
     // Adjust size
     this.sprite.width = 70;
