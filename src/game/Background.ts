@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 
 export class Background {
   private staticBackground: PIXI.Sprite;
+  private staticBackground2: PIXI.Sprite;
   private movingLayerContainer: PIXI.Container;
   private app: PIXI.Application;
   private numMovingLayers: number = 3; // Number of moving layers
@@ -15,7 +16,18 @@ export class Background {
       "assets/sprites/background/parallax-mountain-bg.png"
     );
 
+    this.staticBackground2 = PIXI.Sprite.from(
+      "assets/sprites/background/parallax-mountain-trees.png"
+    );
+
     this.centerAndScale(this.staticBackground);
+
+    // scale and position the static background2
+    this.staticBackground2.anchor.set(0.5);
+    this.staticBackground2.x = this.app.screen.width / 2;
+    this.staticBackground2.y = this.app.screen.height / 1.45;
+    this.staticBackground2.width = this.app.screen.width;
+    this.staticBackground2.height = 600;
 
     // Create a container for the moving layers
     this.movingLayerContainer = new PIXI.Container();
@@ -41,7 +53,11 @@ export class Background {
     }
 
     // Add the container to the stage
-    app.stage.addChild(this.staticBackground, this.movingLayerContainer);
+    app.stage.addChild(
+      this.staticBackground,
+      this.movingLayerContainer,
+      this.staticBackground2
+    );
   }
 
   private centerAndScale(sprite: PIXI.Sprite) {
@@ -50,10 +66,6 @@ export class Background {
     sprite.y = this.app.screen.height / 2;
     sprite.width = this.app.screen.width;
     sprite.height = this.app.screen.height;
-  }
-
-  public render() {
-    this.centerAndScale(this.staticBackground);
   }
 
   public moveBackground(speed: number) {

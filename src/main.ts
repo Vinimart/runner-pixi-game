@@ -4,15 +4,13 @@ import { Background } from './game/Background';
 import { Character } from './game/Character';
 import { Obstacle } from './game/Obstacle';
 
-const backgroundSpeed = 1; // Adjust the speed as needed
+const backgroundSpeed = 0.5; // Adjust the speed as needed
 
 const app = new PIXI.Application({ backgroundAlpha: 0, resizeTo: window });
 
 document.body.appendChild(app.view as HTMLCanvasElement);
 
 const background = new Background(app);
-background.render();
-
 const character = new Character(app);
 character.render();
 
@@ -23,7 +21,7 @@ const obstacleTexture = [
 
 const obstacles: Obstacle[] = [];
 
-let time = Math.random() * 2 + 2;
+let time = 0;
 
 app.ticker.add(() => {
   time -= 1 / 60;
